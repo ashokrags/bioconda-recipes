@@ -1,36 +1,52 @@
 package:
   name: python-tripal
-  version: "1.5"
+  version: "2.0.1"
 
 source:
-  fn: tripal-1.5.tar.gz
-  url: https://pypi.python.org/packages/47/d5/dd042cf423ca265c7d530cac983650ea4cec4e4ed1fd57aa9fd74d0339ad/tripal-1.5.tar.gz
-  md5: 1ea80652a14b85ed88d39fce07d0c1d5
+  fn: tripal-2.0.1.tar.gz
+  url: https://pypi.python.org/packages/65/49/7d327dbf30de910b481e51a74286614525d2aa358aaeafe80a312a24860b/tripal-2.0.1.tar.gz
+  md5: 3a2849b970fdaf6ab7693f8ff422b623
 
 build:
   number: 0
-  skip: True # [not py27]
+  skip: true # [py3k]
 
 requirements:
   build:
     - python
     - setuptools
     - requests >=2.4.3
+    - wrapt
+    - click
+    - pyyaml
 
   run:
     - python
     - requests >=2.4.3
+    - wrapt
+    - click
+    - pyyaml
+    - future
 
 test:
   imports:
     - tripal
-    - tripal.actions
+    - tripal.analysis
+    - tripal.db
+    - tripal.feature
+    - tripal.job
+    - tripal.organism
 
   commands:
-    - tripal --help > /dev/null
+    - LANG=C.UTF-8 tripaille --help > /dev/null
 
 about:
-  home: https://github.com/abretaud/python-tripal
+  home: https://github.com/galaxy-genome-annotation/python-tripal
   license: MIT License
   summary: 'Tripal API library'
   license_family: MIT
+
+extra:
+    container:
+        # unicode problem with click
+        extended-base: true
